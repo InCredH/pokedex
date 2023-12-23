@@ -50,7 +50,6 @@ const PokemonGrid = () => {
             height="85vh"
             overflowY="scroll"
             sx={{ "&::-webkit-scrollbar": { display: "none" } }}
-            mt={-7}
         >
             <Grid
                 templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
@@ -72,7 +71,7 @@ const PokemonGrid = () => {
                 closeModal={closeModal}
                 selectedPokemon={selectedPokemon}
             />
-            <h2 ref={endRef}></h2>
+            <h2 ref={endRef} style={{minHeight: "100px", minWidth: "100px"}}></h2>
         </Box>
     );
 };

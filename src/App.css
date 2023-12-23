@@ -1,7 +1,7 @@
 /* App.css */
 .app-container {
   /* Set background properties for the body or a container div */
-  background-image: url('./assets/pokeball1.jpg');
+  background-image: url('/pokeball_logo.png');
   background-size: cover;
   opacity: 0.8;
   height: 100vh;

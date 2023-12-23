@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-import { Flex, Input, Text, Center, Spacer, Select, InputGroup, InputLeftAddon } from "@chakra-ui/react";
+import { Image, Flex, Input, Text, Center, Spacer, Select, InputGroup, InputLeftAddon, Circle } from "@chakra-ui/react";
 import { SearchIcon } from '@chakra-ui/icons';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { pokemonCacheActions } from '../store';
 
 const Navbar = () => {
@@ -43,6 +43,13 @@ const Navbar = () => {
                 bg="black" // Set background color to black
                 color="white" // Set text color to white
             >
+                <Image
+                    borderRadius={"full"}
+                    boxSize={"3%"}
+                    src={"/pokemon_logo.png"}
+                    alt="logo"
+                    marginX={"8px"}
+                />
                 <Center>
                     <Text fontSize="2xl">Next-Gen Pokedex</Text>
                 </Center>
