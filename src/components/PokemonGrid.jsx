@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PokemonCard from "./PokemonCard";
 import Pokemon_Modal from "./PokemonModal";
@@ -7,14 +7,33 @@ import {
     GridItem,
     Box
 } from "@chakra-ui/react";
-import { fetchPokemon } from "../store";
+import { fetchNextPokemons, fetchPokemon } from "../store";
 
 const PokemonGrid = () => {
     const dispatch = useDispatch();
-    const pokemons = useSelector((state) => state.pokemonCache.fetched);
     const searchResult = useSelector((state) => state.pokemonCache.searchResult) || []
+    const searchStr = useSelector((state) => state.pokemonCache.searchStr)
+    const searchType = useSelector((state) => state.pokemonCache.searchType)
     const [selectedPokemon, setSelectedPokemon] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const endRef = useRef();
+    const [isEnd, setIsEnd] = useState(false)
+
+    useEffect(() => {
+        if(isEnd && searchStr === "" && searchType === "") {
+            dispatch(fetchNextPokemons())
+            console.log("Fetching pages calling from grid")
+        }
+    }, [isEnd])
+
+    useEffect(() => {
+        const observer = new IntersectionObserver((entries) => {
+            const entry = entries[0]
+            console.log(entry.isIntersecting)
+            setIsEnd(entry.isIntersecting)
+        })
+        observer.observe(endRef.current)
+    }, [])
 
     const handlePokemonClick = (pokemonId) => {
         dispatch(fetchPokemon(pokemonId));
@@ -53,6 +72,7 @@ const PokemonGrid = () => {
                 closeModal={closeModal}
                 selectedPokemon={selectedPokemon}
             />
+            <h2 ref={endRef}></h2>
         </Box>
     );
 };

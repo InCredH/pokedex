@@ -16,10 +16,31 @@ export const fetchPokemon = createAsyncThunk(
     }
 );
 
+export const fetchNextPokemons = createAsyncThunk(
+    "pokemon/fetchNextPokemons",
+    async (_, { getState, dispatch }) => {
+      const state = getState();
+      let pageFetched = state.pokemonCache.pageFetched;
+      let pokemons = [...state.pokemonCache.fetched]
+  
+      try {
+          for (let i = pageFetched * 10 + 1; i <= (pageFetched + 1) * 10; i += 1) {
+              const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${i}`)
+              const pokemon = response.data
+              pokemons.push(pokemon)
+          }
+          return pokemons
+      }
+      catch(error) {
+        return rejectWithValue(error.message)
+      }
+    }
+  );
+
 const InitialPokemons = []
 
-const fetch20Pokemons = async () => {
-    
+const fetchInitialPokemons = async () => {
+
     for (let i = 1; i <= 30; i += 1) {
         const response = await axios.get(
             `https://pokeapi.co/api/v2/pokemon/${i}`
@@ -28,26 +49,30 @@ const fetch20Pokemons = async () => {
     }
 }
 
-await fetch20Pokemons()
+await fetchInitialPokemons()
 
 export const pokemonCache = createSlice({
     name: "pokemonCache",
     initialState: {
         fetched: InitialPokemons,
-        pageFetched: 2,
+        pageFetched: 3,
         searchResult: InitialPokemons,
+        searchStr: "",
+        searchType: ""
     },
     reducers: {
         updateSearchResult(state, action) {
+            state.searchStr = action.payload.searchStr
+            state.searchType = action.payload.type
             const pokemons = state.fetched.map((pokemon) => {
-                if (action.payload.type == "") {
+                if (state.searchType == "") {
                     return pokemon
                 }
                 else {
-                    return pokemon.types.map((typeObj) => typeObj.type.name).includes(action.payload.type) ? pokemon : null
+                    return pokemon.types.map((typeObj) => typeObj.type.name).includes(state.searchType) ? pokemon : null
                 }
             }).filter((pokemon) => pokemon !== null)
-            if (action.payload.searchStr == "") {
+            if (state.searchStr == "") {
                 state.searchResult = pokemons
                 return
             }
@@ -56,11 +81,16 @@ export const pokemonCache = createSlice({
                 keys: ["name"],
                 findAllMatches: true,
             })
-            const result = fuse.search(action.payload.searchStr).map((item) => pokemons[item.refIndex])
+            const result = fuse.search(state.searchStr).map((item) => pokemons[item.refIndex])
             state.searchResult = result
-        }
+        },
     },
     extraReducers: (builder) => {
+        builder.addCase(fetchNextPokemons.fulfilled, (state, action) => {
+            state.fetched = action.payload
+            state.searchResult = action.payload
+            state.pageFetched = state.pageFetched + 1
+        })
     }
 })
 
