@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import PokemonCard from "./PokemonCard";
 import Pokemon_Modal from "./PokemonModal";
 import {
@@ -6,14 +7,16 @@ import {
   GridItem,
   Box
 } from "@chakra-ui/react";
+import { fetchPokemon } from "../store";
 
 const PokemonGrid = () => {
+  const dispatch = useDispatch();
   const pokemonIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]; // An array of Pokemon IDs
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handlePokemonClick = (pokemonId) => {
-    setSelectedPokemon(pokemonId);
+    dispatch(fetchPokemon(pokemonId));
     setIsModalOpen(true);
   };
 
