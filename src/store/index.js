@@ -16,23 +16,26 @@ export const fetchPokemon = createAsyncThunk(
     }
 );
 
+const InitialPokemons = []
+
 const fetch20Pokemons = async () => {
-    const pokemons = []
-    for (let i = 1; i <= 50; i += 1) {
+    
+    for (let i = 1; i <= 30; i += 1) {
         const response = await axios.get(
             `https://pokeapi.co/api/v2/pokemon/${i}`
         );
-        pokemons.push(response.data)
+        InitialPokemons.push(response.data)
     }
-    return pokemons
 }
+
+await fetch20Pokemons()
 
 export const pokemonCache = createSlice({
     name: "pokemonCache",
     initialState: {
-        fetched: await fetch20Pokemons(),
+        fetched: InitialPokemons,
         pageFetched: 2,
-        searchResult: await fetch20Pokemons(),
+        searchResult: InitialPokemons,
     },
     reducers: {
         updateSearchResult(state, action) {

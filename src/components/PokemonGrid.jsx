@@ -28,9 +28,10 @@ const PokemonGrid = () => {
 
     return (
         <Box
-            maxHeight="470px"
+            height="85vh"
             overflowY="scroll"
             sx={{ "&::-webkit-scrollbar": { display: "none" } }}
+            mt={-7}
         >
             <Grid
                 templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
