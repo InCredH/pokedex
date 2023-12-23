@@ -7,13 +7,13 @@ import './App.css'
 
 function App() {
 
-  return (
-    <div className='app-container'>
-      <Navbar />
-      <Header />
-      <PokemonGrid />
-    </div>
-  )
+    return (
+        <div className='app-container'>
+            <Navbar />
+            <Header />
+            <PokemonGrid />
+        </div>
+    )
 }
 
 export default App
