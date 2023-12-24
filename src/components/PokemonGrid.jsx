@@ -22,14 +22,12 @@ const PokemonGrid = () => {
     useEffect(() => {
         if(isEnd && searchStr === "" && searchType === "") {
             dispatch(fetchNextPokemons())
-            console.log("Fetching pages calling from grid")
         }
     }, [isEnd])
 
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
             const entry = entries[0]
-            console.log(entry.isIntersecting)
             setIsEnd(entry.isIntersecting)
         })
         observer.observe(endRef.current)

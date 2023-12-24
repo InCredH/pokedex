@@ -5,16 +5,13 @@ import PokemonGrid from './components/PokemonGrid'
 import './App.css'
 import store, { fetchInitialPokemons } from './store'
 import { useSelector } from 'react-redux'
-import { Box, Spinner } from '@chakra-ui/react'
-import { useEffect } from 'react'
+import { Box } from '@chakra-ui/react'
 
 function App() {
 
     const loading = useSelector((state) => state.pokemon.loading)
 
-    useEffect(() => {
-        store.dispatch(fetchInitialPokemons())
-    }, [])
+    store.dispatch(fetchInitialPokemons())
 
     return (
         <div className='app-container'>
