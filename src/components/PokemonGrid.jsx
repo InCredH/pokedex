@@ -7,7 +7,7 @@ import {
     GridItem,
     Box
 } from "@chakra-ui/react";
-import { fetchNextPokemons, fetchPokemon } from "../store";
+import { fetchNextPokemons, fetchPokemon, fetchPokemonByName } from "../store";
 
 const PokemonGrid = () => {
     const dispatch = useDispatch();
@@ -17,13 +17,23 @@ const PokemonGrid = () => {
     const [selectedPokemon, setSelectedPokemon] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const endRef = useRef();
-    const [isEnd, setIsEnd] = useState(false)
+    const [isEnd, setIsEnd] = useState(false);
 
+    
     useEffect(() => {
         if(isEnd && searchStr === "" && searchType === "") {
             dispatch(fetchNextPokemons())
         }
     }, [isEnd])
+    
+    useEffect(() => {
+        if (searchResult.length === 0) {
+          dispatch(fetchPokemonByName(searchStr));
+        }
+        if(searchStr!== "" && searchResult[0]?.name !== searchStr) {
+            dispatch(fetchPokemonByName(searchStr));
+        }
+      }, [searchStr, dispatch]);
 
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
