@@ -6,10 +6,6 @@ This Pokedex application is built using React.js and leverages the Pokemon API t
 
 Check out the live demo of the Pokedex application [here](https://transcendent-eclair-6975bc.netlify.app/).
 
-## Website Screenshot
-
-![Screenshot 1](/src/assets/pokedex_ss1.png)
-
 ## Features
 
 - **Pokemon Information**: Retrieve and display detailed information about various Pokemon, including statistics, types, and more.
@@ -59,9 +55,6 @@ To run the Pokedex application locally, follow these steps:
    ```
 
    The application will run at `http://localhost:5173`.
-
-## Here is a simple GIF:
-![Alt Text](https://gifyu.com/image/SjE0B)
 
 ## Acknowledgements
 
