@@ -108,7 +108,11 @@ const pokemonSlice = createSlice({
         loading: false,
         error: null,
     },
-    reducers: {},
+    reducers: {
+        resetPokemon(state, action) {
+            state.pokemon = null;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchPokemon.pending, (state) => {

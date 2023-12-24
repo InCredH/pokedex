@@ -14,8 +14,6 @@
   cursor: url("/campfire.gif"), auto;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
-
 * {
-  font-family: 'Bangers' ;
+  font-family: 'Bangers';
 }

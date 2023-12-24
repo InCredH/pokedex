@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Image, Text, Flex, Tag } from "@chakra-ui/react";
+import { Box, Image, Text, Flex, Tag, Avatar, TagLabel, Spacer } from "@chakra-ui/react";
 import { getTypeColor } from "../utils/pokemon_meta";
 
 
@@ -11,7 +11,7 @@ const PokemonCard = ({ pokemonData }) => {
                 borderRadius="lg"
                 overflow="hidden"
                 boxShadow="lg"
-                p={4}
+                p={"4px"}
                 mb={4}
                 textAlign="center"
                 background={typeColor + "70"}
@@ -30,6 +30,35 @@ const PokemonCard = ({ pokemonData }) => {
             >
                 {pokemonData && (
                     <div>
+                        <Flex p={"4px"}>
+                        <Tag size='lg' colorScheme='red' borderRadius='full'>
+                            <Avatar
+                                src='/pokemon_logo.png'
+                                size='xs'
+                                name='Segun Adebayo'
+                                mr="2px"
+                                ml="-7px"
+                            />
+                            <TagLabel p={"2px"}>#{pokemonData.id}</TagLabel>
+                        </Tag>
+                        <Spacer />
+                                <Flex >
+                                {pokemonData.types.map((type)=>(
+                                    <Image
+                                        src={`/icons/${type.type.name}.svg`}
+                                        alt={pokemonData.name+type.type.name}
+                                        boxSize="25px"
+                                        mx={"auto"}
+                                        background={getTypeColor(type.type.name)}
+                                        rounded={"full"}
+                                        my={"auto"}
+                                        objectFit={"cover"}
+                                        p={"1px"}
+                                        style={{ boxShadow: `0 0 20px ${getTypeColor(type.type.name)}` }}
+                                    />
+                                ))}
+                                </Flex>
+                        </Flex>
                         <Flex justify="center" mb={4}>
                             <Image
                                 src={`https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${pokemonData.id}.svg`}

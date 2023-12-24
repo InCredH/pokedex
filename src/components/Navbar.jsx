@@ -56,15 +56,15 @@ const Navbar = () => {
                 <Spacer />
                 <Center w="30%">
                     <InputGroup style={{ color: "black" }}>
-                        <InputLeftAddon>
-                            <SearchIcon />
+                        <InputLeftAddon backgroundColor={"black"}>
+                            <SearchIcon textColor={"white"} />
                         </InputLeftAddon>
                         <Input
-                            variant="filled"
+                            variant="outline"
                             placeholder="Type a pokemon name" htmlSize={60}
                             width="auto"
                             color="white"
-                            marginX="5px"
+                            mr="5px"
                             onChange={handleInputChange}
                             value={searchStr}
                         />

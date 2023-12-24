@@ -1,39 +1,48 @@
 //Modal Dialog box containing pokemon details
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
     Box,
     Modal,
     ModalOverlay,
     ModalContent,
-    ModalHeader,
     ModalBody,
-    ModalCloseButton,
     Button,
-    Progress,
     Flex,
     Image,
     Spacer,
     Text,
-    Tag
+    Tag,
 } from "@chakra-ui/react";
 import { getTypeColor } from "../utils/pokemon_meta";
+import ProgressBar from "@ramonak/react-progress-bar";
+import { pokemonCacheActions, selectedPokemonActions } from "../store";
 
 export default function PokemonModal({ isModalOpen, closeModal }) {
     const selectedPokemon = useSelector((state) => state.pokemon.pokemon);
 
+    const dispatch = useDispatch();
+
+    useEffect(()=> {
+        if(!isModalOpen) {
+            dispatch(selectedPokemonActions.resetPokemon())
+        }
+
+    }, [isModalOpen])
+
     function getColor(stat) {
         if (stat <= 24) {
-            return "red";
+            return "#eb4a31"; // light pink (lighter shade of red)
         } else if (stat <= 49) {
-            return "orange";
+            return "#FFA07A"; // gold (lighter shade of orange)
         } else if (stat <= 74) {
-            return "yellow";
+            return "#FFD700"; // light yellow
         } else {
-            return "green";
+            return "#90EE90"; // light green
         }
     }
+
 
     return (
         <Modal isOpen={isModalOpen} onClose={closeModal}>
@@ -83,7 +92,7 @@ export default function PokemonModal({ isModalOpen, closeModal }) {
                                                 {stat.base_stat}
                                             </Text>
                                         </Flex>
-                                        <Progress backgroundColor={getTypeColor(selectedPokemon.types[0].type.name) + "50"} isAnimated={true} hasStripe rounded={"lg"} value={stat.base_stat} colorScheme={getColor(stat.base_stat)} />
+                                        <ProgressBar customLabel=" " height="15px" bgColor={getColor(stat.base_stat)} completed={stat.base_stat} animateOnRender/>
                                     </>
                                 ))}
                                 <br />
