@@ -19,44 +19,46 @@ export const fetchPokemon = createAsyncThunk(
 export const fetchNextPokemons = createAsyncThunk(
     "pokemon/fetchNextPokemons",
     async (_, { getState, dispatch }) => {
-      const state = getState();
-      let pageFetched = state.pokemonCache.pageFetched;
-      let pokemons = [...state.pokemonCache.fetched]
-  
-      try {
-          for (let i = pageFetched * 10 + 1; i <= (pageFetched + 1) * 10; i += 1) {
-              const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${i}`)
-              const pokemon = response.data
-              pokemons.push(pokemon)
-          }
-          return pokemons
-      }
-      catch(error) {
-        return rejectWithValue(error.message)
-      }
+        const state = getState();
+        let pageFetched = state.pokemonCache.pageFetched;
+        let pokemons = [...state.pokemonCache.fetched]
+
+        try {
+            for (let i = pageFetched * 10 + 1; i <= (pageFetched + 1) * 10; i += 1) {
+                const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${i}`)
+                const pokemon = response.data
+                pokemons.push(pokemon)
+                setTimeout(() => { }, 800)
+            }
+            return pokemons
+        }
+        catch (error) {
+            return rejectWithValue(error.message)
+        }
     }
-  );
+);
 
-const InitialPokemons = []
 
-const fetchInitialPokemons = async () => {
+export const fetchInitialPokemons = createAsyncThunk(
+    "pokemon/fetchInitialPokemons",
+    async (_, { getState, dispatch }) => {
 
-    for (let i = 1; i <= 30; i += 1) {
-        const response = await axios.get(
-            `https://pokeapi.co/api/v2/pokemon/${i}`
-        );
-        InitialPokemons.push(response.data)
-    }
-}
-
-await fetchInitialPokemons()
+        const InitialPokemons = []
+        for (let i = 1; i <= 30; i += 1) {
+            const response = await axios.get(
+                `https://pokeapi.co/api/v2/pokemon/${i}`
+            );
+            InitialPokemons.push(response.data)
+        }
+        return InitialPokemons
+    })
 
 export const pokemonCache = createSlice({
     name: "pokemonCache",
     initialState: {
-        fetched: InitialPokemons,
-        pageFetched: 3,
-        searchResult: InitialPokemons,
+        fetched: [],
+        pageFetched: 0,
+        searchResult: [],
         searchStr: "",
         searchType: ""
     },
@@ -78,7 +80,7 @@ export const pokemonCache = createSlice({
             }
             const fuse = new Fuse(pokemons, {
                 includeScore: false,
-                keys: ["name"],
+                keys: ["name", "id"],
                 findAllMatches: true,
             })
             const result = fuse.search(state.searchStr).map((item) => pokemons[item.refIndex])
@@ -90,6 +92,11 @@ export const pokemonCache = createSlice({
             state.fetched = action.payload
             state.searchResult = action.payload
             state.pageFetched = state.pageFetched + 1
+        })
+        builder.addCase(fetchInitialPokemons.fulfilled, (state, action) => {
+            state.fetched = action.payload
+            state.searchResult = action.payload
+            state.pageFetched = 3
         })
     }
 })
@@ -115,7 +122,16 @@ const pokemonSlice = createSlice({
             .addCase(fetchPokemon.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
-            });
+            })
+            .addCase(fetchNextPokemons.pending, (state, action) => {
+                state.loading = true
+            })
+            .addCase(fetchNextPokemons.fulfilled, (state, action) => {
+                state.loading = false
+            })
+            .addCase(fetchNextPokemons.rejected, (state, action) => {
+                state.loading = false
+            })
     },
 });
 
