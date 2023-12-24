@@ -7,11 +7,12 @@ import store, { fetchInitialPokemons } from './store'
 import { useSelector } from 'react-redux'
 import { Box } from '@chakra-ui/react'
 
+store.dispatch(fetchInitialPokemons())
+
 function App() {
 
     const loading = useSelector((state) => state.pokemon.loading)
 
-    store.dispatch(fetchInitialPokemons())
 
     return (
         <div className='app-container'>
