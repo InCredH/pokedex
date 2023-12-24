@@ -30,7 +30,8 @@ const PokemonGrid = () => {
         if (searchResult.length === 0) {
           dispatch(fetchPokemonByName(searchStr));
         }
-        if(searchStr!== "" && searchResult[0]?.name !== searchStr) {
+        if(searchStr !== "" && searchResult[0]?.name !== searchStr) {
+            console.log("searching for pokemon by name")
             dispatch(fetchPokemonByName(searchStr));
         }
       }, [searchStr, dispatch]);
@@ -64,7 +65,7 @@ const PokemonGrid = () => {
                 gap={6}
                 p={4}
             >
-                {searchResult.map((pokemon, index) => (
+                {searchResult.length>0 && searchResult[0].id && searchResult.map((pokemon, index) => (
                     <GridItem
                         key={index}
                         onClick={() => { handlePokemonClick(pokemon.id) }}
