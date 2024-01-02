@@ -7,11 +7,9 @@ import store from './store/index'
 import { ChakraProvider } from '@chakra-ui/react'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
     <ChakraProvider>
       <Provider store = {store}>
         <App />
       </Provider>
-    </ChakraProvider>
-  </React.StrictMode>,
+    </ChakraProvider>,
 )

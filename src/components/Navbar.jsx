@@ -45,24 +45,24 @@ const Navbar = () => {
             >
                 <Image
                     borderRadius={"full"}
-                    boxSize={"3%"}
+                    boxSize={{ base: "40px", md: "50px" }}
                     src={"/pokemon_logo.png"}
                     alt="logo"
                     marginX={"8px"}
                 />
                 <Center>
-                    <Text fontSize="2xl">Next-Gen Pokedex</Text>
+                    <Text >Next-Gen Pokedex</Text>
                 </Center>
                 <Spacer />
                 <Center w="30%">
                     <InputGroup style={{ color: "black" }}>
-                        <InputLeftAddon backgroundColor={"black"}>
+                        <InputLeftAddon display={{base:"none", md:"inherit"}} backgroundColor={"black"}>
                             <SearchIcon textColor={"white"} />
                         </InputLeftAddon>
                         <Input
                             variant="outline"
                             placeholder="Type a pokemon name" htmlSize={60}
-                            width="auto"
+                            width={{ base: "100%", md: "auto" }}
                             color="white"
                             mr="5px"
                             onChange={handleInputChange}

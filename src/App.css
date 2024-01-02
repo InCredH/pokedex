@@ -9,7 +9,6 @@
   /* Other background properties */
 }
 
-
 .change-cursor {
   cursor: url("/campfire.gif"), auto;
 }
@@ -17,3 +16,4 @@
 * {
   font-family: 'Bangers';
 }
+
